@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "looking-for-job",
+  "version": "${version}",
+  "name": "LookingForJob",
+  "description": "",
+  "authors": [
+    "biryeongtrain06",
+    "whereismommy"
+  ],
+  "contact": {
+    "repo": "https://github.com/ISekai-Relam/LookingForJob"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/looking-for-job/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "net.biryeongtrain.lookingforjob.LookingForJob"
+    ]
+  },
+  "mixins": [
+    "looking-for-job.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
