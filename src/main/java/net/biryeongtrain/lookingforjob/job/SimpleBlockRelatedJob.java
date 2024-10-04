@@ -46,7 +46,7 @@ public class SimpleBlockRelatedJob extends AbstractBlockRelatedJob {
                 var simpleJob = (SimpleBlockRelatedJob) j;
                 PlayerJobData jobData = ((ServerPlayerEntityExt)player).lookingForJob$getJobData(simpleJob);
                 if (simpleJob.addExp(block, Reason.GENERIC, jobData)) {
-
+                    // TODO : REMOVE THIS. this is for testing
                     player.sendMessage(Text.literal("You have gained " + simpleJob.getValidatedBlockOrTag(block) + " experience points.").formatted(Formatting.GREEN), false);
                     player.sendMessage(Text.literal("To level Up : %s / %s".formatted(jobData.getExp(), simpleJob.getNextLevelUpPoint(jobData.getLevel())).formatted(Formatting.GREEN)), false);
                 }
