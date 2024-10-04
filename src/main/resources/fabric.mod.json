@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "net.biryeongtrain.lookingforjob.LookingForJob"
+    ],
+    "fabric-datagen": [
+      "net.biryeongtrain.lookingforjob.datagen.DataGenInit"
     ]
   },
   "mixins": [

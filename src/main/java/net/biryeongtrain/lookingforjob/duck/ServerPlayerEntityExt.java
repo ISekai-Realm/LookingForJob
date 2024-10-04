@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface ServerPlayerEntityExt {
     List<Job<?>> lookingForJob$getPlayerJobs();
-    <T extends Job<?>> PlayerJobData<T> lookingForJob$setPlayerJob(T job, int jobPriority);
+    <T extends Job<?>> PlayerJobData lookingForJob$setPlayerJob(T job, int jobPriority);
     @Nullable
-    <T extends Job<?>> PlayerJobData<T> lookingForJob$getJobData(T job);
+    <T extends Job<?>> PlayerJobData lookingForJob$getJobData(T job);
 
 }

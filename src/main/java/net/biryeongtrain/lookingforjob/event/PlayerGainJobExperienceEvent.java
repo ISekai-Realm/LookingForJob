@@ -1,19 +1,27 @@
 package net.biryeongtrain.lookingforjob.event;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.biryeongtrain.lookingforjob.job.PlayerJobData;
+import net.biryeongtrain.lookingforjob.job.exp.Reason;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import xyz.nucleoid.stimuli.event.StimulusEvent;
 
 public class PlayerGainJobExperienceEvent {
-    public static final Event<GainJobExperience> PLAYER_EXP_GET_EVENT =
-            EventFactory.createArrayBacked(GainJobExperience.class,
-                    (listeners) -> (player, targetId, exp, isFirstJob, isWillLevelUp) -> {
-                        for (GainJobExperience listener : listeners) {
-                            listener.onGainJobExperience(player, targetId, exp, isFirstJob, isWillLevelUp);
+    public static final StimulusEvent<GainJobExperience> PLAYER_EXP_GET_EVENT =
+            StimulusEvent.create(GainJobExperience.class,
+                    (ctx) -> (data, targetId, exp, reason) -> {
+                        try {
+                            for (var listener : ctx.getListeners()) {
+                                var result = listener.onGainJobExperience(data, targetId, exp, reason);
+
+                                if (result != ActionResult.PASS) {
+                                    return result;
+                                }
+                            }
+                        } catch (Throwable t) {
+                            ctx.handleException(t);
                         }
+                        return ActionResult.PASS;
                     });
 
     public static final StimulusEvent<LevelUp> PLAYER_LEVEL_UP_EVENT =
@@ -43,6 +51,6 @@ public class PlayerGainJobExperienceEvent {
 
     @FunctionalInterface
     public interface GainJobExperience {
-        void onGainJobExperience(ServerPlayerEntity player, Identifier targetId, double exp, boolean isFirstJob, boolean isWillLevelUp);
+        ActionResult onGainJobExperience(PlayerJobData data, Identifier targetId, double exp, Reason reason);
     }
 }
