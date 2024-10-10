@@ -1,4 +1,4 @@
-package utils;
+package net.biryeongtrain.lookingforjob.utils;
 
 import net.biryeongtrain.lookingforjob.LookingForJob;
 

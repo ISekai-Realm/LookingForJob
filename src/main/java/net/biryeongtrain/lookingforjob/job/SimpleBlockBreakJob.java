@@ -1,25 +1,29 @@
 package net.biryeongtrain.lookingforjob.job;
 
 import eu.pb4.polymer.core.api.utils.PolymerUtils;
-import it.unimi.dsi.fastutil.ints.Int2DoubleArrayMap;
 import net.biryeongtrain.lookingforjob.duck.ServerPlayerEntityExt;
 import net.biryeongtrain.lookingforjob.event.PlayerGainJobEvent;
 import net.biryeongtrain.lookingforjob.job.exp.Reason;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.boss.BossBar;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.biryeongtrain.lookingforjob.utils.TextUtils;
 import xyz.nucleoid.stimuli.Stimuli;
 import xyz.nucleoid.stimuli.event.block.BlockBreakEvent;
 
-public class SimpleBlockRelatedJob extends AbstractBlockRelatedJob {
+import java.util.UUID;
+
+public class SimpleBlockBreakJob extends AbstractBlockRelatedJob {
     private static boolean eventRegistered = false;
 
-    public SimpleBlockRelatedJob(Identifier id) {
-        super(id);
+    public SimpleBlockBreakJob(Identifier id, BossBar.Color color, String translationKey) {
+        super(id, color, translationKey);
     }
 
     @Override
@@ -28,7 +32,7 @@ public class SimpleBlockRelatedJob extends AbstractBlockRelatedJob {
     }
 
     @Override
-    public SimpleBlockRelatedJob registerEvents() {
+    public SimpleBlockBreakJob registerEvents() {
         if (isEventRegistered()) {
             return this;
         }
@@ -37,18 +41,29 @@ public class SimpleBlockRelatedJob extends AbstractBlockRelatedJob {
             var block = blockstate.getBlock();
 
             var playerJobs = ((ServerPlayerEntityExt)player).lookingForJob$getPlayerJobs();
-            var job = playerJobs.stream().filter(j -> j instanceof SimpleBlockRelatedJob).toList();
+            var job = playerJobs.stream().filter(j -> j instanceof SimpleBlockBreakJob).toList();
 
-            if (player.isCreative() || !player.getMainHandStack().isIn(ItemTags.PICKAXES)) {
+            if (player.isCreative() || player.getMainHandStack().getMiningSpeedMultiplier(blockstate) == 1.0F) {
                 return ActionResult.PASS;
             }
+
+
+            if (player.getMainHandStack().hasEnchantments()) {
+                var enchantments = EnchantmentHelper.getEnchantments(player.getMainHandStack());
+                var level = enchantments.getLevel(player.getRegistryManager().getWrapperOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH));
+
+                if (level > 0) {
+                    return ActionResult.PASS;
+                }
+            }
+
             for (Job<?> j : job) {
-                var simpleJob = (SimpleBlockRelatedJob) j;
+                var simpleJob = (SimpleBlockBreakJob) j;
                 PlayerJobData jobData = ((ServerPlayerEntityExt)player).lookingForJob$getJobData(simpleJob);
                 if (simpleJob.addExp(block, Reason.GENERIC, jobData)) {
                     // TODO : REMOVE THIS. this is for testing
-                    player.sendMessage(Text.literal("You have gained " + simpleJob.getValidatedBlockOrTag(block) + " experience points.").formatted(Formatting.GREEN), false);
-                    player.sendMessage(Text.literal("To level Up : %s / %s".formatted(jobData.getExp(), simpleJob.getNextLevelUpPoint(jobData.getLevel())).formatted(Formatting.GREEN)), false);
+//                    player.sendMessage(Text.literal("You have gained " + simpleJob.getValidatedBlockOrTag(block) + " experience points.").formatted(Formatting.GREEN), false);
+//                    player.sendMessage(Text.literal("To level Up : %s / %s".formatted(jobData.getExp(), simpleJob.getNextLevelUpPoint(jobData.getLevel())).formatted(Formatting.GREEN)), false);
                 }
             }
             return ActionResult.PASS;
@@ -60,8 +75,13 @@ public class SimpleBlockRelatedJob extends AbstractBlockRelatedJob {
             }
             return ActionResult.PASS;
         }));
-        SimpleBlockRelatedJob.eventRegistered = true;
+        SimpleBlockBreakJob.eventRegistered = true;
         return this;
+    }
+
+    @Override
+    public double getNextLevelUpPoint(int level) {
+        return super.getNextLevelUpPoint(level);
     }
 
     @Override

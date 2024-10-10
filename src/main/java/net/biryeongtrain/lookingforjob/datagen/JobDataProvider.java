@@ -22,7 +22,7 @@ public class JobDataProvider extends FabricCodecDataProvider<JobExpLevelContaine
     @Override
     protected void configure(BiConsumer<Identifier, JobExpLevelContainer> provider, RegistryWrapper.WrapperLookup lookup) {
         provider.accept(Jobs.MINER.getJobId(),
-                new JobExpLevelContainer.Builder<Block>(Registries.BLOCK)
+                new JobExpLevelContainer.Builder<>(Registries.BLOCK)
                         .addTagExp(BlockTags.COAL_ORES, 5)
                         .addTagExp(BlockTags.COPPER_ORES, 7)
                         .addTagExp(BlockTags.IRON_ORES, 10)
@@ -33,7 +33,16 @@ public class JobDataProvider extends FabricCodecDataProvider<JobExpLevelContaine
                         .addTagExp(BlockTags.BASE_STONE_OVERWORLD, 1)
 
                         .setDefaultLevelType(30)
-                        .build());
+                        .build()
+        );
+
+        provider.accept(Jobs.WOOD_CUTTER.getJobId(),
+            new JobExpLevelContainer.Builder<>(Registries.BLOCK)
+                    .addTagExp(BlockTags.LOGS, 3)
+
+                    .setDefaultLevelType(15)
+                    .build()
+                );
     }
 
     @Override

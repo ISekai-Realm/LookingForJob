@@ -1,7 +1,11 @@
 package net.biryeongtrain.lookingforjob;
 
+import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
+import net.biryeongtrain.lookingforjob.block.BlockRegistries;
 import net.biryeongtrain.lookingforjob.command.CommandRegistry;
 import net.biryeongtrain.lookingforjob.data.JobDataLoader;
+import net.biryeongtrain.lookingforjob.item.ItemRegistry;
+import net.biryeongtrain.lookingforjob.papi.TextPlaceHolders;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -15,8 +19,12 @@ public class LookingForJob implements ModInitializer {
     
     @Override
     public void onInitialize() {
+        PolymerResourcePackUtils.addModAssets(MOD_ID);
+        PolymerResourcePackUtils.markAsRequired();
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new JobDataLoader());
-
+        TextPlaceHolders.register();
         CommandRegistrationCallback.EVENT.register(CommandRegistry::registerCommands);
+        BlockRegistries.register();
+        ItemRegistry.register();
     }
 }

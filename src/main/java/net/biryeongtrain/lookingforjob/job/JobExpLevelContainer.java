@@ -15,8 +15,8 @@ import java.util.stream.IntStream;
 public record JobExpLevelContainer(Map<Identifier, Double> typeExpPoints, Map<Identifier, Double> tagExpPoint, Map<String, Double> requirementLevelUp) {
     private static final Reference2ObjectMap<Job<?>, JobExpLevelContainer> map = new Reference2ObjectOpenHashMap<>();
     public static Codec<JobExpLevelContainer> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.unboundedMap(Identifier.CODEC, Codec.DOUBLE).fieldOf("tag_exp").forGetter(JobExpLevelContainer::typeExpPoints),
-            Codec.unboundedMap(Identifier.CODEC, Codec.DOUBLE).fieldOf("type_exp").forGetter(JobExpLevelContainer::tagExpPoint),
+            Codec.unboundedMap(Identifier.CODEC, Codec.DOUBLE).fieldOf("type_exp").forGetter(JobExpLevelContainer::typeExpPoints),
+            Codec.unboundedMap(Identifier.CODEC, Codec.DOUBLE).fieldOf("tag_exp").forGetter(JobExpLevelContainer::tagExpPoint),
             Codec.unboundedMap(Codecs.NON_EMPTY_STRING, Codec.DOUBLE).fieldOf("requirement_level_up").forGetter(JobExpLevelContainer::requirementLevelUp)
     ).apply(instance, JobExpLevelContainer::new));
 

@@ -3,11 +3,9 @@ package net.biryeongtrain.lookingforjob.job;
 import com.google.common.base.Objects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.biryeongtrain.lookingforjob.event.PlayerGainJobEvent;
+import net.biryeongtrain.lookingforjob.duck.ServerPlayerEntityExt;
 import net.biryeongtrain.lookingforjob.event.PlayerGainJobExperienceEvent;
 import net.biryeongtrain.lookingforjob.job.exp.Reason;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
@@ -18,9 +16,10 @@ public class PlayerJobData {
 
     private final int jobPriority;
     private ServerPlayerEntity player;
+    private final JobDataBossBar bossBar;
 
     public static final Codec<PlayerJobData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Identifier.CODEC.fieldOf("job").forGetter(o -> ((PlayerJobData)o).getJob().getJobId()),
+            Identifier.CODEC.fieldOf("job").forGetter(o -> ((PlayerJobData) o).getJob().getJobId()),
             Codec.INT.fieldOf("job_priority").forGetter(PlayerJobData::getJobPriority),
             Codec.INT.fieldOf("level").forGetter(PlayerJobData::getLevel),
             Codec.DOUBLE.fieldOf("exp").forGetter(PlayerJobData::getExp)
@@ -34,12 +33,17 @@ public class PlayerJobData {
         this.level = level;
         this.jobPriority = jobPriority;
         this.job = job;
+        this.bossBar = new JobDataBossBar(job.getBossBarId(), job.getBossBarColor(), this);
     }
 
     public PlayerJobData(ServerPlayerEntity player, Job<?> job, int jobPriority) {
+        this(0, 1, jobPriority, job);
         this.player = player;
-        this.job = job;
-        this.jobPriority = jobPriority;
+        this.bossBar.setDisplayInterval(((ServerPlayerEntityExt) player).lookingForJob$getDisplayInterval());
+    }
+
+    public double getRequiredToNextLevel() {
+        return job.getNextLevelUpPoint(level);
     }
 
     public Job<?> getJob() {
@@ -58,11 +62,16 @@ public class PlayerJobData {
         return exp;
     }
 
+    public ServerPlayerEntity getPlayer() {
+        return player;
+    }
+
     public void setPlayer(ServerPlayerEntity player) {
         if (this.player != null) {
             throw new IllegalStateException("Player is already set");
         }
         this.player = player;
+        this.bossBar.setDisplayInterval(((ServerPlayerEntityExt) player).lookingForJob$getDisplayInterval());
     }
 
     public boolean levelUp(boolean keepExperiences, boolean force) {
@@ -99,6 +108,10 @@ public class PlayerJobData {
             return levelUp(false, false);
         }
         return true;
+    }
+
+    public JobDataBossBar getBossBar() {
+        return bossBar;
     }
 
     @Override

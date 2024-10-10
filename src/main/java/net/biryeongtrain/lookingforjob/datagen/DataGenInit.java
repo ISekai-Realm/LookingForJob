@@ -8,5 +8,9 @@ public class DataGenInit implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         var pack = fabricDataGenerator.createPack();
         pack.addProvider(JobDataProvider::new);
+        pack.addProvider(EnglishLanguageProvider::new);
+        pack.addProvider(KoreanLanguageProvider::new);
+        pack.addProvider(BlockTagProvider::new);
+        pack.addProvider(ModelProvider::new);
     }
 }
