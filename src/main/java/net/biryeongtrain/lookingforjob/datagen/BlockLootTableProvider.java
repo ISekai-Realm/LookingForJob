@@ -8,7 +8,6 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.EnchantWithLevelsLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.registry.RegistryWrapper;
@@ -39,5 +38,8 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider {
                                 .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1.0F))))
                 )
         );
+
+        addDrop(BlockRegistries.DAMAGED_LOG, Items.OAK_LOG);
+        addDrop(BlockRegistries.DAMAGED_WITH_SAP_LOG, Items.OAK_LOG);
     }
 }

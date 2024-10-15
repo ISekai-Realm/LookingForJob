@@ -6,6 +6,8 @@ import net.biryeongtrain.lookingforjob.utils.TextUtils;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.util.Identifier;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -26,5 +28,9 @@ public class Jobs {
 
     public static Optional<Job<?>> getJob(Identifier id) {
         return Optional.ofNullable(JOBS.get(id));
+    }
+
+    public static Collection<Job<?>> getJobs() {
+        return JOBS.values();
     }
 }

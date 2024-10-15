@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.biryeongtrain.lookingforjob.duck.ServerPlayerEntityExt;
 import net.biryeongtrain.lookingforjob.event.PlayerGainJobExperienceEvent;
+import net.biryeongtrain.lookingforjob.job.bossbar.JobDataBossBar;
 import net.biryeongtrain.lookingforjob.job.exp.Reason;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;

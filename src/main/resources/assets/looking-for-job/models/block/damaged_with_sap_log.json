@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "minecraft:block/oak_log_top",
+    "side": "looking-for-job:block/damaged_with_sap_log"
+  }
+}

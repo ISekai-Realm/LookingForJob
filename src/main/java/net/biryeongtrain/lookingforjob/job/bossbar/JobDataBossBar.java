@@ -1,9 +1,10 @@
-package net.biryeongtrain.lookingforjob.job;
+package net.biryeongtrain.lookingforjob.job.bossbar;
 
 import eu.pb4.placeholders.api.PlaceholderContext;
 import eu.pb4.placeholders.api.Placeholders;
 import eu.pb4.placeholders.api.parsers.TagParser;
 import net.biryeongtrain.lookingforjob.event.PlayerGainJobExperienceEvent;
+import net.biryeongtrain.lookingforjob.job.PlayerJobData;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.network.packet.s2c.play.BossBarS2CPacket;
 import net.minecraft.text.Text;

@@ -1,8 +1,9 @@
-package net.biryeongtrain.lookingforjob.job;
+package net.biryeongtrain.lookingforjob.job.exp;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.*;
+import net.biryeongtrain.lookingforjob.job.Job;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;

@@ -1,5 +1,6 @@
 package net.biryeongtrain.lookingforjob.job;
 
+import net.biryeongtrain.lookingforjob.job.exp.JobExpLevelContainer;
 import net.biryeongtrain.lookingforjob.job.exp.Reason;
 import net.minecraft.block.Block;
 import net.minecraft.entity.boss.BossBar;

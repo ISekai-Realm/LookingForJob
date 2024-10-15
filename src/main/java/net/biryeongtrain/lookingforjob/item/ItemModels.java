@@ -6,5 +6,9 @@ import net.biryeongtrain.lookingforjob.utils.IdUtils;
 import net.minecraft.item.Items;
 
 public class ItemModels {
-    public static PolymerModelData TRAPPER_MODEL = PolymerResourcePackUtils.requestModel(Items.PAPER, IdUtils.getItemModelId("trapper"));
+    public static PolymerModelData WOOD_CUTTING_KNIFE = PolymerResourcePackUtils.requestModel(Items.PAPER, IdUtils.getItemModelId("wood_cutting_knife"));
+
+    public static void register() {
+        // NO-OP
+    }
 }

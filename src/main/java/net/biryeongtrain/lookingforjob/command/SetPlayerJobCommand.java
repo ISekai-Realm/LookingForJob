@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import net.biryeongtrain.lookingforjob.command.suggestion.JobSuggestions;
 import net.biryeongtrain.lookingforjob.duck.ServerPlayerEntityExt;
 import net.biryeongtrain.lookingforjob.job.Jobs;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -20,7 +21,7 @@ public class SetPlayerJobCommand {
         return CommandManager.literal("setJob")
                 .requires(source -> source.hasPermissionLevel(2))
                 .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .then(CommandManager.argument("job", IdentifierArgumentType.identifier())
+                        .then(CommandManager.argument("job", IdentifierArgumentType.identifier()).suggests(new JobSuggestions())
                                 .then(CommandManager.argument("priority", IntegerArgumentType.integer(0))
                                         .executes(context -> setJob(context, EntityArgumentType.getPlayer(context, "player"), IdentifierArgumentType.getIdentifier(context, "job"), IntegerArgumentType.getInteger(context, "priority")))
                                 )

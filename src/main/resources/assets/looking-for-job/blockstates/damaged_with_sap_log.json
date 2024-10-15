@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "looking-for-job:block/damaged_with_sap_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "looking-for-job:block/damaged_with_sap_log"
+    },
+    "axis=z": {
+      "model": "looking-for-job:block/damaged_with_sap_log_horizontal",
+      "x": 90
+    }
+  }
+}

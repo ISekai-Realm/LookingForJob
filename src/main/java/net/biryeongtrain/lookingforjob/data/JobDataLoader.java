@@ -5,7 +5,7 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.biryeongtrain.lookingforjob.LookingForJob;
-import net.biryeongtrain.lookingforjob.job.JobExpLevelContainer;
+import net.biryeongtrain.lookingforjob.job.exp.JobExpLevelContainer;
 import net.biryeongtrain.lookingforjob.job.Jobs;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.resource.Resource;

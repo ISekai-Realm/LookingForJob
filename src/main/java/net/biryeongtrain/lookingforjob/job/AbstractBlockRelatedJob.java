@@ -1,16 +1,14 @@
 package net.biryeongtrain.lookingforjob.job;
 
+import net.biryeongtrain.lookingforjob.job.exp.JobExpLevelContainer;
 import net.biryeongtrain.lookingforjob.job.exp.Reason;
 import net.minecraft.block.Block;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.Map;
 import java.util.UUID;
 
 public abstract class AbstractBlockRelatedJob implements Job<Block>{
