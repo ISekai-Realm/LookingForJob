@@ -2,6 +2,7 @@ package net.biryeongtrain.lookingforjob.datagen;
 
 import net.biryeongtrain.lookingforjob.job.exp.JobExpLevelContainer;
 import net.biryeongtrain.lookingforjob.job.Jobs;
+import net.biryeongtrain.lookingforjob.utils.IdUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider;
 import net.minecraft.data.DataOutput;
@@ -31,7 +32,7 @@ public class JobDataProvider extends FabricCodecDataProvider<JobExpLevelContaine
                         .addTagExp(BlockTags.DIAMOND_ORES, 30)
                         .addTagExp(BlockTags.BASE_STONE_OVERWORLD, 1)
 
-                        .setDefaultLevelType(30)
+                        .setDefaultLevelValue(30)
                         .build()
         );
 
@@ -39,7 +40,9 @@ public class JobDataProvider extends FabricCodecDataProvider<JobExpLevelContaine
             new JobExpLevelContainer.Builder<>(Registries.BLOCK)
                     .addTagExp(BlockTags.LOGS, 3)
 
-                    .setDefaultLevelType(15)
+                    .setDefaultLevelValue(15)
+                    .addCustomExp(IdUtils.getId("sap_tree"),  3)
+                    .addCustomExp(IdUtils.getId("gather_sap"), 10)
                     .build()
                 );
     }

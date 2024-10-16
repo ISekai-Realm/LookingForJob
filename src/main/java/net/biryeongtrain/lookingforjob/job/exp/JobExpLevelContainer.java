@@ -13,12 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public record JobExpLevelContainer(Map<Identifier, Double> typeExpPoints, Map<Identifier, Double> tagExpPoint, Map<String, Double> requirementLevelUp) {
+public record JobExpLevelContainer(Map<Identifier, Double> typeExpPoints, Map<Identifier, Double> tagExpPoint, Map<String, Double> requirementLevelUp, Map<Identifier, Double> custom) {
     private static final Reference2ObjectMap<Job<?>, JobExpLevelContainer> map = new Reference2ObjectOpenHashMap<>();
     public static Codec<JobExpLevelContainer> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.unboundedMap(Identifier.CODEC, Codec.DOUBLE).fieldOf("type_exp").forGetter(JobExpLevelContainer::typeExpPoints),
             Codec.unboundedMap(Identifier.CODEC, Codec.DOUBLE).fieldOf("tag_exp").forGetter(JobExpLevelContainer::tagExpPoint),
-            Codec.unboundedMap(Codecs.NON_EMPTY_STRING, Codec.DOUBLE).fieldOf("requirement_level_up").forGetter(JobExpLevelContainer::requirementLevelUp)
+            Codec.unboundedMap(Codecs.NON_EMPTY_STRING, Codec.DOUBLE).fieldOf("requirement_level_up").forGetter(JobExpLevelContainer::requirementLevelUp),
+            Codec.unboundedMap(Identifier.CODEC, Codec.DOUBLE).fieldOf("custom").forGetter(JobExpLevelContainer::custom)
     ).apply(instance, JobExpLevelContainer::new));
 
     public static void clear() {
@@ -55,7 +56,7 @@ public record JobExpLevelContainer(Map<Identifier, Double> typeExpPoints, Map<Id
         private final Registry<T> registry;
 
         public Builder(Registry<T> registry) {
-            this.container = new JobExpLevelContainer(new HashMap<>(), new HashMap<>(), new Object2DoubleLinkedOpenHashMap<>());
+            this.container = new JobExpLevelContainer(new HashMap<>(), new HashMap<>(), new Object2DoubleLinkedOpenHashMap<>(), new HashMap<>());
             this.registry = registry;
         }
 
@@ -74,7 +75,7 @@ public record JobExpLevelContainer(Map<Identifier, Double> typeExpPoints, Map<Id
             return this;
         }
 
-        public Builder<T> setDefaultLevelType(double baseValue) {
+        public Builder<T> setDefaultLevelValue(double baseValue) {
             for (int i : IntStream.range(2, 100).boxed().toList()) {
                 if (i <= 30) {
                     baseValue *= 1.06;
@@ -88,6 +89,11 @@ public record JobExpLevelContainer(Map<Identifier, Double> typeExpPoints, Map<Id
                 this.container.requirementLevelUp.put(String.valueOf(i), baseValue);
             }
 
+            return this;
+        }
+
+        public Builder<T> addCustomExp(Identifier target, double exp) {
+            this.container.custom.put(target, exp);
             return this;
         }
 
